@@ -20,6 +20,14 @@ io.on('connection', (socket) => {
 
 app.use(logger('dev'));
 
+app.use('/static', express.static('public', {
+    setHeaders: (res, path, stat) => {
+        if (path.endsWith('.css')) {
+            res.set('Content-Type', 'text/css');
+        }
+    }
+}));
+
 app.get('/', (req, res) => {
     res.sendFile(process.cwd() + '/client/index.html');
 });
