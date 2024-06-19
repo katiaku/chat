@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <script type="module">
+        import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
+        const socket = io();
+    </script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        section {
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(166, 149, 199);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        form {
+            height: 80vh;
+            width: 50vh;
+            background-color: rgb(192, 176, 223);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            padding: 20px;
+            gap: 10px;
+        }
+        input,
+        button {
+            padding: 20px;
+            border: none;
+            border-radius: 10px;
+        }
+        button {
+            font-style: bold;
+            color: white;
+            background-color: rgb(71, 47, 119);
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: rgb(81, 53, 138);
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <form>
+            <input
+                type="text"
+                name="message"
+                placeholder="Type a message"
+                autocomplete="off"
+            >
+            <button type="submit">Send</button>
+        </form>
+    </section>
+</body>
+</html>
