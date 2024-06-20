@@ -28,7 +28,7 @@ await db.execute(`
     )
 `);
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log('user connected');
 
     socket.on('disconnect', () => {
@@ -49,7 +49,22 @@ io.on('connection', (socket) => {
         }
 
         io.emit('chat message', msg, result.lastInsertRowid.toString());
-    })
+    });
+
+    if (!socket.recovered) {
+        try {
+            const results = await db.execute({
+                sql: 'SELECT id, content FROM messages WHERE id > ?',
+                args: [socket.handshake.auth.serverOffset ?? 0]
+            })
+
+            results.rows.forEach(row => {
+                socket.emit('chat message', row.content, row.id.toString());
+            })
+        } catch (e) {
+            console.error(e);
+        }
+    }
 });
 
 app.use(logger('dev'));
